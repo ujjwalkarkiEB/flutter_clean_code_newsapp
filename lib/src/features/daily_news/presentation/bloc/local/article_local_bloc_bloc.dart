@@ -64,7 +64,9 @@ class ArticleLocalBloc
         emit(ArticleLocalFetched(articles: savedBlocs));
         return;
       }
-      await _saveArticleUsecase(params: event.article);
+
+      print('inded: $taskToBeDeletedIndex!');
+      await _saveArticleUsecase(params: savedBlocs[taskToBeDeletedIndex!]);
       savedBlocs.insert(
           taskToBeDeletedIndex!, savedBlocs[taskToBeDeletedIndex!]);
       emit(ArticleSaved());
