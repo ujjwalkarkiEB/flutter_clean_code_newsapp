@@ -7,9 +7,9 @@ sealed class ArticleLocalBlocEvent {
 class GetLocalArticlesEvent extends ArticleLocalBlocEvent {}
 
 class UnsaveArticleEvent extends ArticleLocalBlocEvent {
-  UnsaveArticleEvent({required this.article, this.isUndo = false});
+  UnsaveArticleEvent({this.article, this.isUndo = false});
 
-  final ArticleModel article;
+  final ArticleModel? article;
   final bool isUndo;
 }
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_code_news_app/src/features/daily_news/domain/model/article.dart';
 import 'package:flutter_clean_code_news_app/src/features/daily_news/presentation/bloc/local/article_local_bloc_bloc.dart';
 
 void showSuccessSnackbar(BuildContext context, String text,
-    {bool isUndo = false, ArticleModel? article}) {
+    {bool isUndo = false}) {
   final snackBar = SnackBar(
     content: Text(text),
     backgroundColor: Colors.green,
@@ -15,9 +14,7 @@ void showSuccessSnackbar(BuildContext context, String text,
       textColor: Colors.white,
       onPressed: () {
         if (isUndo) {
-          context
-              .read<ArticleLocalBloc>()
-              .add(UnsaveArticleEvent(article: article!));
+          context.read<ArticleLocalBloc>().add(UnsaveArticleEvent());
         }
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       },

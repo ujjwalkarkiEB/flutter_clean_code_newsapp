@@ -28,7 +28,12 @@ class _SavedPageState extends State<SavedPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ArticleLocalBloc, ArticleLocalBlocState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ArticleUnSaved) {
+          showSuccessSnackbar(context, 'Successfully deleted from your list!',
+              isUndo: true);
+        }
+      },
       builder: (context, state) {
         if (state is ArticleLocalFetching) {
           return Center(

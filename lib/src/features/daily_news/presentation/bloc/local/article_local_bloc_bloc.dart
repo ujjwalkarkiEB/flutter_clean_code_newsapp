@@ -56,15 +56,17 @@ class ArticleLocalBloc
       UnsaveArticleEvent event, Emitter<ArticleLocalBlocState> emit) async {
     emit(UnSavingArticle());
     try {
-      taskToBeDeletedIndex = savedBlocs.indexOf(event.article);
+      taskToBeDeletedIndex = savedBlocs.indexOf(event.article!);
       if (!event.isUndo) {
         await _unSaveArticleUsecase(params: event.article);
         savedBlocs.remove(event.article);
         emit(ArticleUnSaved());
         emit(ArticleLocalFetched(articles: savedBlocs));
+        return;
       }
       await _saveArticleUsecase(params: event.article);
-      savedBlocs.insert(taskToBeDeletedIndex!, event.article);
+      savedBlocs.insert(
+          taskToBeDeletedIndex!, savedBlocs[taskToBeDeletedIndex!]);
       emit(ArticleSaved());
 
       emit(ArticleLocalFetched(articles: savedBlocs));
