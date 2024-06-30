@@ -5,6 +5,7 @@ import 'package:flutter_clean_code_news_app/src/features/daily_news/data/data_so
 import 'package:flutter_clean_code_news_app/src/features/daily_news/injection_container.dart';
 import 'package:flutter_clean_code_news_app/src/features/daily_news/presentation/bloc/local/article_local_bloc_bloc.dart';
 import 'package:flutter_clean_code_news_app/src/features/daily_news/presentation/bloc/remote/article_remote_bloc_bloc.dart';
+import 'package:flutter_clean_code_news_app/src/features/daily_news/presentation/pages/widgets/connectivity_checker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routerConfig: _appRouter.config(),
+        builder: (context, child) => ConnectivityChecker(child: child!),
       ),
     );
   }

@@ -31,7 +31,7 @@ class _SavedPageState extends State<SavedPage> {
       listener: (context, state) {
         if (state is ArticleUnSaved) {
           showSuccessSnackbar(context, 'Successfully deleted from your list!',
-              isUndo: true);
+              showUndo: true);
         }
       },
       builder: (context, state) {

@@ -24,6 +24,7 @@ class ArticleLocalBloc
 
   List<ArticleModel> savedBlocs = [];
   int? taskToBeDeletedIndex;
+  ArticleModel? deletedArticle;
 
   void _onGetLocalArticles(
       GetLocalArticlesEvent event, Emitter<ArticleLocalBlocState> emit) async {
@@ -56,32 +57,30 @@ class ArticleLocalBloc
       UnsaveArticleEvent event, Emitter<ArticleLocalBlocState> emit) async {
     emit(UnSavingArticle());
     try {
-      taskToBeDeletedIndex = savedBlocs.indexOf(event.article!);
       if (!event.isUndo) {
+        taskToBeDeletedIndex = savedBlocs.indexOf(event.article!);
+
         await _unSaveArticleUsecase(params: event.article);
         savedBlocs.remove(event.article);
+        deletedArticle = event.article;
         emit(ArticleUnSaved());
         emit(ArticleLocalFetched(articles: savedBlocs));
         return;
       }
-
-      print('inded: $taskToBeDeletedIndex!');
-      await _saveArticleUsecase(params: savedBlocs[taskToBeDeletedIndex!]);
-      savedBlocs.insert(
-          taskToBeDeletedIndex!, savedBlocs[taskToBeDeletedIndex!]);
-      emit(ArticleSaved());
-
+      await _saveArticleUsecase(params: deletedArticle);
+      savedBlocs.insert(taskToBeDeletedIndex!, deletedArticle!);
+      emit(ArticleLocalFetching());
       emit(ArticleLocalFetched(articles: savedBlocs));
     } catch (e) {
       emit(ArticleUnsaveError(error: 'Failed to unsave the article !'));
     }
   }
 
-  @override
-  void onTransition(
-      Transition<ArticleLocalBlocEvent, ArticleLocalBlocState> transition) {
-    super.onTransition(transition);
-    print('---------------');
-    print('trans : $transition');
-  }
+  // @override
+  // void onTransition(
+  //     Transition<ArticleLocalBlocEvent, ArticleLocalBlocState> transition) {
+  //   super.onTransition(transition);
+  //   print('---------------');
+  //   print('trans : $transition');
+  // }
 }
