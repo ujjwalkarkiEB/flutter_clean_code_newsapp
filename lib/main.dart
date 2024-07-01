@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routerConfig: _appRouter.config(),
-        builder: (context, child) => ConnectivityChecker(child: child!),
       ),
     );
   }
